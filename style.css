@@ -1,0 +1,48 @@
+@import 'https://fonts.googleapis.com/css?family=Montserrat:400,700';
+* {
+    margin: 0;
+}
+body {
+    font-family: Montserrat;
+    color: burlywood;
+    box-sizing: border-box;
+}
+#main-container {
+    display: flex;
+    height: 100vh;
+}
+#left-pane {
+    width: 400px;
+    background-color: rgb(25,25,25);
+}
+#right-pane {
+    width: 100%;
+    background-color: rgb(60,60,75);
+}
+button {
+    text-align: center;
+    color:ivory;
+    padding: 0;
+    margin-right: 5px;
+    margin-left: 5px;
+    background-color: inherit;
+    border: none;
+}
+#add-project-button {
+    float: right;
+}
+#add-task-button {
+    display: none;
+}
+#task-button-description{
+    display: none;
+}
+#new-project-form, #new-task-form {
+    display: none;
+}
+.p {
+    width: 100%;
+}
+.right-align {
+    float: right;
+}
