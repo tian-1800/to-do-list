@@ -4,7 +4,7 @@
 }
 body {
     font-family: Montserrat;
-    color: burlywood;
+    color: rgb(220,220,220);
     box-sizing: border-box;
 }
 #main-container {
@@ -13,15 +13,31 @@ body {
 }
 #left-pane {
     width: 400px;
-    background-color: rgb(25,25,25);
+    background-color: rgb(30,30,30);
+    padding: 10px;
 }
 #right-pane {
     width: 100%;
-    background-color: rgb(60,60,75);
+    background-color: rgb(45,45,45);
+    padding: 30px;
+}
+#task-header, #project-header {
+    font-weight: lighter;
+    margin-bottom: 15px;
+}
+#task-header {
+    display: none;
+}
+#task-header::before {
+    content: 'access_time';
+    font-family: 'Material Icons';
+    vertical-align: -15%;
+    margin-right: 20px;
+
 }
 button {
+    color: rgb(150,150,150);
     text-align: center;
-    color:ivory;
     padding: 0;
     margin-right: 5px;
     margin-left: 5px;
@@ -33,13 +49,43 @@ button {
 }
 #add-task-button {
     display: none;
+    float: left;
 }
 #task-button-description{
     display: none;
+    color: rgb(140,140,140);
+    font-weight: lighter;
+    font-size: 0.9em;
 }
 #new-project-form, #new-task-form {
     display: none;
 }
+ul{
+    list-style-type: none;
+    padding: 0;
+}
+#task-list > li {
+    line-height: 2em;
+}
+#task-list > li::before {
+    content: 'panorama_fish_eye';
+    font-family: 'Material Icons';            
+    font-size: 20px;
+    vertical-align: -15%;
+    margin-right: 10px;
+    margin-left: 0;
+    color: rgb(130, 130, 130);
+}
+#project-list, button {
+    cursor: pointer;
+}
+#project-list > li::before {
+    content: 'arrow_right';
+    font-family: 'Material Icons';            
+    font-size: 25px;
+    vertical-align: -20%;
+}
+
 .p {
     width: 100%;
 }

@@ -9,14 +9,13 @@ class Project {
     deleteTask = (task) => {
         this.task.splice(this.indexOf(task),1);
     }
-    static list = [];
+    static list;
 }
 
 const addDOM = (() => {
     const project = (obj) => {
         obj.addEventListener('click', () => {
-            //console.log(obj);
-            rightPane.displayThisProject(obj.project);
+            rightPane.displayThisProject(obj.project,obj.projectIndex);
         })
     }
     const button = {
@@ -49,15 +48,15 @@ const addDOM = (() => {
 
 const display = (() => {    
     const window = document.getElementById('project-list');
-    const projectList = () =>{
-        let list = Project.list;
+    const projectList = (list) => {
+        Project.list = list;
         window.innerHTML = '';
         for (let project of list) {
             //console.log(project.title);
             let item = document.createElement('li');
-            item.id = 'project-item';
             item.textContent = project.title;
             item.project = project;
+            item.projectIndex = list.indexOf(project);
             addDOM.project(item);
             window.appendChild(item);
         }
@@ -80,7 +79,8 @@ const display = (() => {
         let project = new Project(title);
         console.log(title);
         Project.list.push(project);
-        projectList();
+        sessionStorage.setItem('projects', JSON.stringify(Project.list));
+        projectList(Project.list);
     }
     return {
         projectList, addButton, newForm, newProject
@@ -90,5 +90,6 @@ const display = (() => {
 const projectList = display.projectList;
 const addProjectButton = display.addButton;
 export {
-    projectList,addProjectButton
+    projectList,addProjectButton,Project
 }
+

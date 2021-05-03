@@ -1,4 +1,6 @@
-//import differenceInDays from 'date-fns/differenceInDays';
+import differenceInCalendarDays from 'date-fns/differenceInDays';
+import parseISO from 'date-fns/parseISO';
+
 class Task {
     constructor(title, description, dueDate) {
         this.title = title;
@@ -24,7 +26,9 @@ const addDOM = (() => {
                 }
                 else text.style.display = 'none';
             })
-            list.appendChild(li);            
+            list.appendChild(li);     
+            let test = differenceInCalendarDays(parseISO(task.dueDate), new Date());  
+            console.log(test);     
         }
     }
     const button = {
@@ -58,6 +62,7 @@ const addDOM = (() => {
     }
 })();
 
+let index;
 const display = (() => {
     const initButton = () => {
         let button = document.getElementById('add-task-button');
@@ -74,6 +79,12 @@ const display = (() => {
         button.project = project;
         console.log(project);
     }
+    const saveToStorage = (task) => {        
+        let list = JSON.parse(sessionStorage.getItem('projects'));
+        console.log("index is "+index);
+        list[index].taskList.push(task);
+        sessionStorage.setItem('projects',JSON.stringify(list));
+    }
     const newTask = () => {
         let project = document.getElementById('add-task-button').project;   
         if (!project) return;    
@@ -81,7 +92,9 @@ const display = (() => {
         let description = document.getElementById('task-desc').value;
         let dueDate = document.getElementById('due-date').value;
         let priority = false;
-        project.addTask(new Task(title,description,dueDate,priority));
+        let task = new Task(title,description,dueDate,priority);
+        project.taskList.push(task);
+        saveToStorage(task);
         displayThisProject(project);
     }
     const newForm = () => {    
@@ -92,15 +105,23 @@ const display = (() => {
         const window = document.getElementById('task-container');
         window.innerHTML = "";
         const taskList = document.createElement('ul');
+        taskList.id = 'task-list';
         addDOM.taskList(project,taskList);
         window.appendChild(taskList);
     }
+    const taskHeader = (project) => {
+        let header = document.getElementById('task-header');
+        header.style.display = 'block';
+        header.textContent = project.title;
+    }
     return {
-        button,initButton,newForm,taskWindow,newTask,
+        button,initButton,newForm,taskWindow,newTask,taskHeader,
     }
 })();
 
-const displayThisProject = (project) => {
+const displayThisProject = (project, i) => {
+    index = i;
+    display.taskHeader(project);
     display.taskWindow(project);
     display.button(project);
 }
