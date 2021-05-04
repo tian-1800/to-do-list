@@ -16,14 +16,20 @@
                 <button type="button" id="add-project-button"><i class="material-icons">add</i></button>
                 <h2 id="project-header">Projects</h2>
                 <form id="new-project-form">
-                    <input type="text" name="title" id="project-title">
+                    <input type="text" name="title" id="input-project-title" placeholder="New project">
                     <button type="button" id="new-project-submit"><i class="material-icons">done</i></button>
                     <button type="button" id="new-project-cancel"><i class="material-icons">clear</i></button>
                 </form>
                 <ul id="project-list"></ul>
             </div>
             <div id="right-pane">
-                <h2 id="task-header"></h2>
+                <header id="task-header">
+                    <div id = "task-header-flex">
+                        <h2 id="task-header-text"></h2>
+                        <p id ="project-timetable">click to edit timetable</p>
+                    </div>
+                    <p id="project-description"></p>
+                </header>
                 <div id="task-container"></div>
                 <button type="button" id="add-task-button"><i class="material-icons">add</i></button>
                 <span id="task-button-description">add task</span>   

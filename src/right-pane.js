@@ -1,3 +1,5 @@
+import * as editText from './extra.js';
+import * as projectList from './left-pane.js';
 import differenceInCalendarDays from 'date-fns/differenceInDays';
 import parseISO from 'date-fns/parseISO';
 
@@ -55,15 +57,15 @@ const addDOM = (() => {
                 document.getElementById('task-button-description').style.display = 'block';
             })
         },
-    };
+    }
     return {
         taskList,
         button,
     }
 })();
 
-let index;
 const display = (() => {
+    let index;
     const initButton = () => {
         let button = document.getElementById('add-task-button');
         let doneButton = document.getElementById('new-task-submit');
@@ -72,18 +74,13 @@ const display = (() => {
         addDOM.button.cancel(cancelButton);
         addDOM.button.plus(button);
     }
-    const button = (project) => {
+    const button = (project, i) => {
+        index = i;
         let button = document.getElementById('add-task-button');
         button.style.display = 'block';
         document.getElementById('task-button-description').style.display = 'block';
         button.project = project;
         console.log(project);
-    }
-    const saveToStorage = (task) => {        
-        let list = JSON.parse(sessionStorage.getItem('projects'));
-        console.log("index is "+index);
-        list[index].taskList.push(task);
-        sessionStorage.setItem('projects',JSON.stringify(list));
     }
     const newTask = () => {
         let project = document.getElementById('add-task-button').project;   
@@ -94,7 +91,7 @@ const display = (() => {
         let priority = false;
         let task = new Task(title,description,dueDate,priority);
         project.taskList.push(task);
-        saveToStorage(task);
+        projectList.save();
         displayThisProject(project);
     }
     const newForm = () => {    
@@ -111,19 +108,25 @@ const display = (() => {
     }
     const taskHeader = (project) => {
         let header = document.getElementById('task-header');
+        let headerText = document.getElementById('task-header-text');
+        let description = document.getElementById('project-description');
+        if (description.textContent == "") description.textContent = "Click to enter description";
+        editText.makeTextEditable(description,project,"description");
         header.style.display = 'block';
-        header.textContent = project.title;
+        description.style.display = 'block';
+        headerText.textContent = project.title;
+        description.textContent = project.description;
     }
     return {
-        button,initButton,newForm,taskWindow,newTask,taskHeader,
+        index,button,initButton,newForm,taskWindow,newTask,taskHeader
     }
 })();
 
+
 const displayThisProject = (project, i) => {
-    index = i;
     display.taskHeader(project);
     display.taskWindow(project);
-    display.button(project);
+    display.button(project,i);
 }
 const init = display.initButton;
 

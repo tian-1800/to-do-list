@@ -6,7 +6,5 @@ if(!list) {
     list = [firstProject];
     sessionStorage.setItem('projects', JSON.stringify(list));
 } 
-console.log(sessionStorage.getItem('projects'));
-console.log(list);
 display.addProjectButton();
 display.projectList(list);

@@ -3,6 +3,9 @@ import * as rightPane from './right-pane.js';
 class Project {
     constructor(title) {
         this.title = title;
+        this.description = "lorem ipsum domet ngalor ngidul arep nangendi (click here to edit)";
+        this.startDate = '';
+        this.dueDate = '';
         this.taskList = [];
     }
     addTask = (task) => this.taskList.push(task); 
@@ -16,6 +19,10 @@ const addDOM = (() => {
     const project = (obj) => {
         obj.addEventListener('click', () => {
             rightPane.displayThisProject(obj.project,obj.projectIndex);
+        })
+        obj.addEventListener('text-update', () => {
+            sessionStorage.setItem('projects', JSON.stringify(Project.list));
+            console.log('update');
         })
     }
     const button = {
@@ -75,21 +82,25 @@ const display = (() => {
         form.style.display = 'block';
     }
     const newProject = () => {
-        let title = document.getElementById('project-title').value;
+        let title = document.getElementById('input-project-title').value;
         let project = new Project(title);
         console.log(title);
         Project.list.push(project);
-        sessionStorage.setItem('projects', JSON.stringify(Project.list));
+        save();
         projectList(Project.list);
     }
+    const save = () => {
+        sessionStorage.setItem('projects', JSON.stringify(Project.list));
+    }
     return {
-        projectList, addButton, newForm, newProject
+        projectList, addButton, newForm, newProject, save
     }
 
 })();
 const projectList = display.projectList;
 const addProjectButton = display.addButton;
+const save = display.save;
 export {
-    projectList,addProjectButton,Project
+    projectList,addProjectButton,Project,save
 }
 
