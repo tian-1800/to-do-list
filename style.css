@@ -1,4 +1,4 @@
-@import 'https://fonts.googleapis.com/css?family=Montserrat:400,700';
+@import 'https://fonts.googleapis.com/css?family=Montserrat:300,400,700';
 * {
     margin: 0;
 }
@@ -14,26 +14,37 @@ body {
 #left-pane {
     width: 400px;
     background-color: rgb(30,30,30);
-    padding: 10px;
+    padding: 20px;
 }
 #right-pane {
     width: 100%;
     background-color: rgb(45,45,45);
     padding: 30px;
 }
-#task-header, #project-header {
+#input-project-title {
+    width: 60%;
+}
+#task-header-flex {
+    display: flex;
+}
+#task-header-text, #project-header {
     font-weight: lighter;
     margin-bottom: 15px;
 }
-#task-header {
+#task-header, #project-description {
     display: none;
 }
-#task-header::before {
+#task-header-text {
+    width: 600px;
+}
+#task-header-text::before {
     content: 'access_time';
     font-family: 'Material Icons';
     vertical-align: -15%;
     margin-right: 20px;
-
+}
+#project-timetable {
+    color: rgb(150,150,150);
 }
 button {
     color: rgb(150,150,150);
@@ -57,7 +68,7 @@ button {
     font-weight: lighter;
     font-size: 0.9em;
 }
-#new-project-form, #new-task-form {
+form {
     display: none;
 }
 ul{
