@@ -21,7 +21,7 @@ const addDOM = {
     },
     cancel: (obj) => {
         obj.addEventListener('click', () => {
-            removeTemporaryForm(obj);
+            removeTemporaryForm();
         })
     }
 }
@@ -54,9 +54,6 @@ const makeTextEditable = (obj, item, attr) => {
     obj.editable = true;
     global = {obj,item,attr};
     addDOM.text(obj);
-    document.addEventListener('update', (event) => {
-        console.log('update');
-    })
 }
 
 

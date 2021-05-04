@@ -1,4 +1,5 @@
-import * as editText from './extra.js';
+import * as editText from './edit-text-module.js';
+import * as editDate from './edit-date-module.js';
 import * as projectList from './left-pane.js';
 import differenceInCalendarDays from 'date-fns/differenceInDays';
 import parseISO from 'date-fns/parseISO';
@@ -110,8 +111,14 @@ const display = (() => {
         let header = document.getElementById('task-header');
         let headerText = document.getElementById('task-header-text');
         let description = document.getElementById('project-description');
+        let timetable = document.getElementById('project-timetable');
         if (description.textContent == "") description.textContent = "Click to enter description";
         editText.makeTextEditable(description,project,"description");
+        editDate.makeDateEditable(timetable, "project", project);
+        if (project.startDate == "") {
+            timetable.textContent = "click to edit timetable";
+        }
+        else timetable.textContent = `${project.startDate} until ${project.dueDate}`;
         header.style.display = 'block';
         description.style.display = 'block';
         headerText.textContent = project.title;
