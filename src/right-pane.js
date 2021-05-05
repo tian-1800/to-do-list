@@ -111,9 +111,10 @@ const display = (() => {
         let header = document.getElementById('task-header');
         let headerText = document.getElementById('task-header-text');
         let description = document.getElementById('project-description');
+        let descEdit = document.getElementById('project-desc-edit');
         let timetable = document.getElementById('project-timetable');
         if (description.textContent == "") description.textContent = "Click to enter description";
-        editText.makeTextEditable(description,project,"description");
+        editText.makeTextEditable(descEdit,description,project,"description",true);
         editDate.makeDateEditable(timetable, "project", project);
         if (project.startDate == "") {
             timetable.textContent = "click to edit timetable";

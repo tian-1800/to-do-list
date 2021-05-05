@@ -18,11 +18,13 @@ const addDOM = {
     },
     submitDuration: (obj, start, finish) => {
         obj.addEventListener('click', () => {
-            global.item.startDate = start.value;
-            global.item.dueDate = finish.value;
-            global.obj.textContent = countDuration(global.obj,start,finish);
-            projectList.save();
-            removeTemporaryForm();
+            if (start.value && finish.value) { 
+                global.item.startDate = start.value;
+                global.item.dueDate = finish.value;
+                global.obj.textContent = countDuration(global.obj,start,finish);
+                projectList.save();
+                removeTemporaryForm();
+            }
         })
     },
     cancel: (obj) => {

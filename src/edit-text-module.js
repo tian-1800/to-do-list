@@ -2,8 +2,10 @@ import * as projectList from './left-pane.js';
 
 let global;
 const addDOM = {
-    text: (obj) => {
-        obj.addEventListener('click', () => {
+    text: (toggler, obj, item, attr, big) => {
+        toggler.addEventListener('click', () => {
+            global = {toggler, obj, item, attr, big};
+            toggler.style.display='none';
             obj.style.display='none';
             displayEditForm(obj);
         })
@@ -30,12 +32,23 @@ const displayEditForm = (obj) => {
     let form = document.createElement('form');
     form.id = 'temporary-form';
     form.style.display = 'block';
-    let input = document.createElement('input');
-    input.type = 'text';
+    let input;
+    if (global.big) {
+        input = document.createElement('textarea');
+        input.cols = "50";
+        input.rows = "5";
+        console.log('big');
+    }
+    else {
+        input = document.createElement('input');
+        input.style.display = 'inline';
+        input.style.width = '150px';
+    }
     input.value = obj.textContent;
     let submit = document.createElement('button');
     submit.type = 'button';
     submit.innerHTML = '<i class="material-icons">done</i>';
+    submit.style.opacity = '100%';
     addDOM.submit(submit, input)
     let cancel = document.createElement('button');
     cancel.button = 'button';
@@ -47,13 +60,19 @@ const displayEditForm = (obj) => {
 const removeTemporaryForm = () => {
     let element = document.getElementById('temporary-form');
     element.remove();
-    global.obj.style.display = 'block';
+    global.obj.style.display = 'initial';
+    global.toggler.style.display = 'initial';
 }
-const makeTextEditable = (obj, item, attr) => {
+
+// main function, args are as follow:
+//     -toggler: object storing the clicked edit icon
+//     -obj: text object to be edited
+//     -item.attr: variable which has obj as the text content
+//     -big: true if input form is to be a text area, false if an regular input text`
+const makeTextEditable = (toggler, obj, item, attr, big) => {
     if (obj.editable == true) return;
     obj.editable = true;
-    global = {obj,item,attr};
-    addDOM.text(obj);
+    addDOM.text(toggler, obj, item, attr, big);
 }
 
 

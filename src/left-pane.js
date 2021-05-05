@@ -1,9 +1,10 @@
 import * as rightPane from './right-pane.js';
+import * as editText from './edit-text-module.js';
 
 class Project {
     constructor(title) {
         this.title = title;
-        this.description = "lorem ipsum domet ngalor ngidul arep nangendi (click here to edit)";
+        this.description = "lorem ipsum domet ngalor ngidul arep nangendi";
         this.startDate = '';
         this.dueDate = '';
         this.taskList = [];
@@ -35,9 +36,12 @@ const addDOM = (() => {
         submit: (obj) => {
             obj.addEventListener('click', () => {
                 console.log("submit");
-                display.newProject();
-                document.getElementById('new-project-form').style.display = 'none';
-                document.getElementById('add-project-button').style.display = 'block';
+                let title = document.getElementById('input-project-title').value;
+                if (title != "") {
+                    display.newProject();
+                    document.getElementById('new-project-form').style.display = 'none';
+                    document.getElementById('add-project-button').style.display = 'block';
+                }
             })
         },
         cancel: (obj) => {
@@ -60,12 +64,21 @@ const display = (() => {
         window.innerHTML = '';
         for (let project of list) {
             //console.log(project.title);
-            let item = document.createElement('li');
+            let li = document.createElement('li');
+            let item = document.createElement('span')
             item.textContent = project.title;
             item.project = project;
             item.projectIndex = list.indexOf(project);
             addDOM.project(item);
-            window.appendChild(item);
+            let edit = document.createElement('i');
+            edit.classList = 'material-icons edit';
+            edit.textContent = 'edit';
+            let del = document.createElement('i');
+            del.classList = 'material-icons delete';
+            del.textContent = 'delete';
+            editText.makeTextEditable(edit, item, project, "title", false);
+            li.append(item, edit, del);
+            window.appendChild(li);
         }
     }
     const addButton = () => {

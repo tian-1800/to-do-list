@@ -16,7 +16,7 @@
                 <button type="button" id="add-project-button"><i class="material-icons">add</i></button>
                 <h2 id="project-header">Projects</h2>
                 <form id="new-project-form">
-                    <input type="text" name="title" id="input-project-title" placeholder="New project">
+                    <input type="text" name="title" id="input-project-title" placeholder="New project" required>
                     <button type="button" id="new-project-submit"><i class="material-icons">done</i></button>
                     <button type="button" id="new-project-cancel"><i class="material-icons">clear</i></button>
                 </form>
@@ -30,18 +30,21 @@
                             <p id ="project-timetable"></p>
                         </div>
                     </div>
+                    <i id="project-desc-edit" class="material-icons">edit</i>
                     <p id="project-description"></p>
                 </header>
-                <div id="task-container"></div>
-                <button type="button" id="add-task-button"><i class="material-icons">add</i></button>
-                <span id="task-button-description">add task</span>   
-                <form id="new-task-form" action="">
-                    <input type="text" name="title" id="task-title" placeholder="Title">
-                    <input type="text" name="description" id="task-desc" placeholder="Description">
-                    <input type="date" name="due-date" id="due-date">
-                    <button type="button" id="new-task-submit"><i class="material-icons">done</i></button>
-                    <button type="button" id="new-task-cancel"><i class="material-icons">clear</i></button>
-                </form>
+                <main>
+                    <div id="task-container"></div>
+                    <button type="button" id="add-task-button"><i class="material-icons">add</i></button>
+                    <span id="task-button-description">add task</span>   
+                    <form id="new-task-form" action="">
+                        <input type="text" name="title" id="task-title" placeholder="Title">
+                        <input type="text" name="description" id="task-desc" placeholder="Description">
+                        <input type="date" name="due-date" id="due-date">
+                        <button type="button" id="new-task-submit"><i class="material-icons">done</i></button>
+                        <button type="button" id="new-task-cancel"><i class="material-icons">clear</i></button>
+                    </form>
+                </main>
             </div>
         </div>
         <p class="p">left text <span class="right-align">right text</span></p>
