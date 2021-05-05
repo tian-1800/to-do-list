@@ -4,9 +4,11 @@ let global;
 const addDOM = {
     text: (toggler, obj, item, attr, big) => {
         toggler.addEventListener('click', () => {
+            item = obj.item;
             global = {toggler, obj, item, attr, big};
             toggler.style.display='none';
             obj.style.display='none';
+            console.log(item);
             displayEditForm(obj);
         })
     },
@@ -70,7 +72,8 @@ const removeTemporaryForm = () => {
 //     -item.attr: variable which has obj as the text content
 //     -big: true if input form is to be a text area, false if an regular input text`
 const makeTextEditable = (toggler, obj, item, attr, big) => {
-    if (obj.editable == true) return;
+    obj.item = item;
+    if (obj.editable) return;
     obj.editable = true;
     addDOM.text(toggler, obj, item, attr, big);
 }

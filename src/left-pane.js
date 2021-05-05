@@ -16,14 +16,17 @@ class Project {
     static list;
 }
 
+let displayed;
+
 const addDOM = (() => {
     const project = (obj) => {
         obj.addEventListener('click', () => {
             rightPane.displayThisProject(obj.project,obj.projectIndex);
-        })
-        obj.addEventListener('text-update', () => {
-            sessionStorage.setItem('projects', JSON.stringify(Project.list));
-            console.log('update');
+            let list = document.getElementsByClassName('project-item');
+            for (let item of list) {
+                item.classList.remove('selected');
+            }
+            obj.classList.add("selected");
         })
     }
     const button = {
@@ -65,7 +68,8 @@ const display = (() => {
         for (let project of list) {
             //console.log(project.title);
             let li = document.createElement('li');
-            let item = document.createElement('span')
+            let item = document.createElement('span');
+            item.className = 'project-item';
             item.textContent = project.title;
             item.project = project;
             item.projectIndex = list.indexOf(project);
@@ -80,6 +84,14 @@ const display = (() => {
             li.append(item, edit, del);
             window.appendChild(li);
         }
+        initDisplay();
+    }
+    const initDisplay = () => {
+        if (Project.list.length > 0) {
+            rightPane.displayThisProject(Project.list[0]);
+            displayed = 0;
+        }
+
     }
     const addButton = () => {
         let button = document.getElementById('add-project-button');

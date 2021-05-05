@@ -6,12 +6,14 @@ let global;
 const addDOM = {
     duration: (obj) => {
         obj.addEventListener('click', () => {
+            //console.log(global.item);
             displayEditDuration(obj);
             obj.style.display = 'none';
         })
     },
-    date: (obj) => {
+    date: (obj,item) => {
         obj.addEventListener('click', () => {
+            global = {obj,item};
             displayEditDate(obj);
             obj.style.display = 'none';
         })
@@ -56,7 +58,6 @@ const displayEditDuration = (obj) => {
 const createStart = () => {
     let start = document.createElement('input');
     start.type = 'date';
-    console.log(global.item.startDate);
     if (global.item.startDate == "") {
         start.valueAsDate = new Date();
     }
@@ -86,13 +87,16 @@ const removeTemporaryForm = () => {
 }
 
 const makeDateEditable = (obj, projectOrTask, item) => {
-    if (obj.editable) return;
+    //global = {obj,item};
+    if (obj.editable) {
+        global = {obj,item};
+        return;
+    }
     obj.editable = true;
-    global = {obj,item};
     if (projectOrTask == "project") {
         addDOM.duration(obj);
     }
-    else addDOM.date(obj);
+    else addDOM.date(obj,item);
 
 }
 

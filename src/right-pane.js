@@ -114,8 +114,6 @@ const display = (() => {
         let descEdit = document.getElementById('project-desc-edit');
         let timetable = document.getElementById('project-timetable');
         if (description.textContent == "") description.textContent = "Click to enter description";
-        editText.makeTextEditable(descEdit,description,project,"description",true);
-        editDate.makeDateEditable(timetable, "project", project);
         if (project.startDate == "") {
             timetable.textContent = "click to edit timetable";
         }
@@ -124,6 +122,8 @@ const display = (() => {
         description.style.display = 'block';
         headerText.textContent = project.title;
         description.textContent = project.description;
+        editText.makeTextEditable(descEdit,description,project,"description",true);
+        editDate.makeDateEditable(timetable, "project", project);
     }
     return {
         index,button,initButton,newForm,taskWindow,newTask,taskHeader
