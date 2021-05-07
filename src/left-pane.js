@@ -1,10 +1,10 @@
 import * as rightPane from './right-pane.js';
-import * as editText from './edit-text-module.js';
+import addEditDel from './edit-del-icon.js';
 
 class Project {
     constructor(title) {
         this.title = title;
-        this.description = "lorem ipsum domet ngalor ngidul arep nangendi";
+        this.description = "lorem ipsum domet ngalor ngidul arep nangendi ora keturutan";
         this.startDate = '';
         this.dueDate = '';
         this.taskList = [];
@@ -14,19 +14,16 @@ class Project {
         this.task.splice(this.indexOf(task),1);
     }
     static list;
+    static activeIndex = 0;
+    static lastDeleted;
+    static name = "project";
 }
-
-let displayed;
 
 const addDOM = (() => {
     const project = (obj) => {
         obj.addEventListener('click', () => {
-            rightPane.displayThisProject(obj.project,obj.projectIndex);
-            let list = document.getElementsByClassName('project-item');
-            for (let item of list) {
-                item.classList.remove('selected');
-            }
-            obj.classList.add("selected");
+            Project.activeIndex = obj.parentElement.index;
+            display.initDisplay();
         })
     }
     const button = {
@@ -66,32 +63,34 @@ const display = (() => {
         Project.list = list;
         window.innerHTML = '';
         for (let project of list) {
-            //console.log(project.title);
             let li = document.createElement('li');
-            let item = document.createElement('span');
-            item.className = 'project-item';
-            item.textContent = project.title;
-            item.project = project;
-            item.projectIndex = list.indexOf(project);
-            addDOM.project(item);
-            let edit = document.createElement('i');
-            edit.classList = 'material-icons edit';
-            edit.textContent = 'edit';
-            let del = document.createElement('i');
-            del.classList = 'material-icons delete';
-            del.textContent = 'delete';
-            editText.makeTextEditable(edit, item, project, "title", false);
-            li.append(item, edit, del);
+            li.className = 'project-item';
+            li.textContent = project.title;
+            li.project = project;
+            li.index = list.indexOf(project);
+            addEditDel(li,project,"title", list);
+            addDOM.project(li.firstChild);
+            // del.type = "project";
+            // editText.makeTextEditable(edit, item, project, "title", false);
+            // deleteModule.makeTextDeletable(del, list, item);
             window.appendChild(li);
         }
         initDisplay();
     }
     const initDisplay = () => {
         if (Project.list.length > 0) {
-            rightPane.displayThisProject(Project.list[0]);
-            displayed = 0;
+            //projectList(Project.list);
+            if(Project.list.length<Project.activeIndex+1) Project.activeIndex = 0;
+            rightPane.displayThisProject(Project.list[Project.activeIndex],Project.activeIndex);
+            let list = document.getElementsByClassName('project-item');
+            for (let item of list) {
+                item.classList.remove('selected');
+                item.displayed = false;
+            }
+            let obj = list[Project.activeIndex];
+            obj.classList.add("selected");
+            obj.displayed = true;
         }
-
     }
     const addButton = () => {
         let button = document.getElementById('add-project-button');
@@ -111,14 +110,16 @@ const display = (() => {
         let project = new Project(title);
         console.log(title);
         Project.list.push(project);
+        document.getElementById('input-project-title').value = '';
         save();
         projectList(Project.list);
     }
-    const save = () => {
+    const save = (update) => {
         sessionStorage.setItem('projects', JSON.stringify(Project.list));
+        if (update) projectList(Project.list);
     }
     return {
-        projectList, addButton, newForm, newProject, save
+        projectList, addButton, newForm, newProject, save,initDisplay,
     }
 
 })();

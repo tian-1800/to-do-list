@@ -1,4 +1,5 @@
 import * as projectList from './left-pane.js';
+import * as projectDisplay from './right-pane.js';
 
 let global;
 const addDOM = {
@@ -18,9 +19,13 @@ const addDOM = {
             if (newText != "") {
                 global.obj.textContent = newText;
                 global.item[global.attr] = newText;
-                projectList.save();
+                projectList.save(true);
+                if (global.obj.displayed) {
+                    projectDisplay.displayThisProject(global.item);
+                    console.log('update display');
+                }
             }
-            removeTemporaryForm();
+            //removeTemporaryForm();
         })
     },
     cancel: (obj) => {
@@ -67,7 +72,7 @@ const removeTemporaryForm = () => {
 }
 
 // main function, args are as follow:
-//     -toggler: object storing the clicked edit icon
+//     -toggler: object storing the-edit-icon
 //     -obj: text object to be edited
 //     -item.attr: variable which has obj as the text content
 //     -big: true if input form is to be a text area, false if an regular input text`

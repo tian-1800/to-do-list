@@ -9,6 +9,8 @@ body {
     color: rgb(220,220,220);
     box-sizing: border-box;
 }
+i {
+    cursor: pointer;}
 #main-container {
     display: flex;
     height: 100vh;
@@ -25,24 +27,23 @@ body {
 #project-list {
     width: 250px;
 }
-#project-list li>i {
-    display: inline;
-    font-size: 16px;
+.appearing-icon {
+    font-size: 16px !important;
     padding-top: 6px;
     margin-left: 5px;
     opacity: 0;
     transition: opacity 0.3s;
 }
-#project-list span + i {
+span + i {
     padding-left: 15px;
 }
-#project-list i + i {
+i + i {
     padding-right: 15px;
 }
-#project-list i:hover {
+.appearing-icon:hover{
     opacity: 100%;
 }
-#project-list span:hover ~ i {
+#project-list span:hover ~ .appearing-icon, #task-list span:hover ~ .appearing-icon{
     opacity: 50%;
 }
 #right-pane {
@@ -96,12 +97,11 @@ body {
     font-size: 16px;
     float: right;
 }
-.task-description {
-    padding-left: 30px;
-    font-size: 13px;
-    font-weight: 300;
-    line-height: 1em;
-    padding-bottom: 1em;
+.task-date {
+    float: right;
+    color: gray;
+    font-size: 12px;
+    padding-right: 200px;
 }
 button {
     color: rgb(150,150,150);

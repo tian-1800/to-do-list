@@ -4,9 +4,9 @@ import parseISO from 'date-fns/parseISO';
 
 let global;
 const addDOM = {
-    duration: (obj) => {
+    duration: (obj,item) => {
+        global = {obj,item};
         obj.addEventListener('click', () => {
-            //console.log(global.item);
             displayEditDuration(obj);
             obj.style.display = 'none';
         })
@@ -20,10 +20,25 @@ const addDOM = {
     },
     submitDuration: (obj, start, finish) => {
         obj.addEventListener('click', () => {
-            if (start.value && finish.value) { 
-                global.item.startDate = start.value;
-                global.item.dueDate = finish.value;
-                global.obj.textContent = countDuration(global.obj,start,finish);
+            let a = start.firstElementChild.value;
+            let b = finish.firstElementChild.value;
+            console.log(a,b);
+            if (a != "" & b != "") { 
+                global.item.startDate = a;
+                global.item.dueDate = b;
+                console.log('global item is ' + global.item);
+                global.obj.textContent = countDuration(global.obj,a,b);
+                projectList.save();
+                removeTemporaryForm();
+            }
+        })
+    },
+    submitDate: (obj,dueDate) => {
+        obj.addEventListener('click', () => {
+            let a = dueDate.firstElementChild.value;
+            if (a != "") {
+                global.item.dueDate = a;
+                global.obj.textContent = a;
                 projectList.save();
                 removeTemporaryForm();
             }
@@ -41,8 +56,8 @@ const displayEditDuration = (obj) => {
     let form = document.createElement('form');
     form.id = 'temporary-form';
     form.style.display = 'block';    
-    const start = createStart();
-    const finish = createFinish();
+    const start = createInput('start');
+    const finish = createInput('finish');
     let submit = document.createElement('button');
     submit.type = 'button';
     submit.innerHTML = '<i class="material-icons">done</i>';
@@ -55,46 +70,70 @@ const displayEditDuration = (obj) => {
     parent.appendChild(form);
 }
 
-const createStart = () => {
-    let start = document.createElement('input');
-    start.type = 'date';
-    if (global.item.startDate == "") {
-        start.valueAsDate = new Date();
-    }
-    else start.valueAsDate = parseISO(global.item.startDate);
-    return start;
+const displayEditDate = (obj) => {
+    let parent = obj.parentElement;
+    let form = document.createElement('form');
+    form.id = 'temporary-form';
+    form.style.display = 'block';    
+    const dueDate = createInput('due');
+    let submit = document.createElement('button');
+    submit.type = 'button';
+    submit.innerHTML = '<i class="material-icons">done</i>';
+    addDOM.submitDate(submit, dueDate);
+    let cancel = document.createElement('button');
+    cancel.button = 'button';
+    cancel.innerHTML = '<i class="material-icons">clear</i>';    
+    addDOM.cancel(cancel);
+    form.append(dueDate,submit,cancel);
+    parent.appendChild(form);
 }
-const createFinish = () => {
-    let finish = document.createElement('input');
-    finish.type = 'date';
-    if (global.item.dueDate == "") {
-        finish.valueAsDate = new Date();
+
+const createInput = (text) => {
+    let label = document.createElement('label');
+    label.for = text;
+    label.textContent = `${text} date: `;
+    label.style.display = 'block';
+    let obj = document.createElement('input');
+    obj.type = 'date';
+    obj.id = text;    
+    const attr = {
+        'start': global.item.startDate,
+        'finish': global.item.dueDate,
+        'due': global.item.dueDate,
     }
-    else finish.valueAsDate = parseISO(global.item.dueDate);
-    return finish;
+    obj.valueAsDate = parseISO(attr[text]);
+    console.log("valueDate is" + obj.valueAsDate);
+    if (!obj.valueAsDate) {
+        obj.valueAsDate = new Date();
+    }
+    label.appendChild(obj);
+    return label;
 }
 const countDuration = (obj, start, finish) => {
     const today = new Date();
-    const untilStart = differenceInCalendarDays(today,start);
-    const untilFinish = differenceInCalendarDays(today,finish);
-    return `${start.value} until ${finish.value}`;
+    //const untilStart = differenceInCalendarDays(today,start);
+    //const untilFinish = differenceInCalendarDays(today,finish);
+    return `${start} until ${finish}`;
 }
 
 const removeTemporaryForm = () => {
     let element = document.getElementById('temporary-form');
     element.remove();
-    global.obj.style.display = 'block';
+    console.log("global.obj is " + global.obj);
+    global.obj.style.display = 'initial';
 }
 
 const makeDateEditable = (obj, projectOrTask, item) => {
     //global = {obj,item};
     if (obj.editable) {
-        global = {obj,item};
+        if (projectOrTask == "project") {
+            global = {obj,item};
+        }
         return;
     }
     obj.editable = true;
     if (projectOrTask == "project") {
-        addDOM.duration(obj);
+        addDOM.duration(obj,item);
     }
     else addDOM.date(obj,item);
 
