@@ -34,7 +34,7 @@ const addDOM = (() => {
             })
         },
         submit: (obj) => {
-            obj.addEventListener('click', () => {
+            obj.addEventListener('submit', () => {
                 console.log("submit");
                 let title = document.getElementById('input-project-title').value;
                 if (title != "") {
@@ -70,9 +70,6 @@ const display = (() => {
             li.index = list.indexOf(project);
             addEditDel(li,project,"title", list);
             addDOM.project(li.firstChild);
-            // del.type = "project";
-            // editText.makeTextEditable(edit, item, project, "title", false);
-            // deleteModule.makeTextDeletable(del, list, item);
             window.appendChild(li);
         }
         initDisplay();
@@ -94,7 +91,7 @@ const display = (() => {
     }
     const addButton = () => {
         let button = document.getElementById('add-project-button');
-        let doneButton = document.getElementById('new-project-submit');
+        let doneButton = document.getElementById('new-project-form');
         let cancelButton = document.getElementById('new-project-cancel');
         addDOM.button.plus(button);
         addDOM.button.submit(doneButton);

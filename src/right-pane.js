@@ -23,8 +23,9 @@ const addDOM = (() => {
             })
         },
         submit: (obj) => {
-            obj.addEventListener('click', () => {
+            obj.addEventListener('submit', () => {
                 //console.log("submit");
+                event.preventDefault();
                 display.newTask();
                 document.getElementById('new-task-form').style.display = 'none';
                 document.getElementById('add-task-button').style.display = 'block';
@@ -48,9 +49,9 @@ const display = (() => {
     let index;
     const initButton = () => {
         let button = document.getElementById('add-task-button');
-        let doneButton = document.getElementById('new-task-submit');
+        let form = document.getElementById('new-task-form');
         let cancelButton = document.getElementById('new-task-cancel');
-        addDOM.button.submit(doneButton);
+        addDOM.button.submit(form);
         addDOM.button.cancel(cancelButton);
         addDOM.button.plus(button);
     }
@@ -63,19 +64,15 @@ const display = (() => {
         console.log(project);
     }
     const newTask = () => {
-        let project = document.getElementById('add-task-button').project;   
-        if (!project) return;    
+        let project = document.getElementById('add-task-button').project;
         let title = document.getElementById('task-title').value;
         let dueDate = document.getElementById('due-date').value;
         let priority = false;
-        if (title != "") {
-            let task = new Task(title,dueDate,priority);
-            document.getElementById('task-title').value = '';
-            project.taskList.push(task);
-            projectList.save();
-            displayThisProject(project);
-            }
-        //else newTask();
+        let task = new Task(title,dueDate,priority);
+        document.getElementById('task-title').value = '';
+        project.taskList.push(task);
+        projectList.save();
+        displayThisProject(project);
     }
     const newForm = () => {    
         let form = document.getElementById('new-task-form');
